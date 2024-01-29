@@ -15,48 +15,47 @@ const surveyJson = {
       html: "<h4>Fill out the information on the form below to find out the best cloud solutions for your business.</h4>"
     }]
   }, {
-    elements: [{
-      name: "satisfaction-score",
-      title: "How would you describe your experience with our product?",
-      type: "radiogroup",
-      choices: [
-        { value: 5, text: "Fully satisfying" },
-        { value: 4, text: "Generally satisfying" },
-        { value: 3, text: "Neutral" },
-        { value: 2, text: "Rather unsatisfying" },
-        { value: 1, text: "Not satisfying at all" }
-      ],
-      isRequired: true
-    }]
-  }, {
-    elements: [{
-      name: "what-would-make-you-more-satisfied",
-      title: "What can we do to make your experience more satisfying?",
-      type: "comment",
-      visibleIf: "{satisfaction-score} = 4"
-    }, {
-      name: "nps-score",
-      title: "On a scale of zero to ten, how likely are you to recommend our product to a friend or colleague?",
-      type: "rating",
-      rateMin: 0,
-      rateMax: 10,
-    }],
-    visibleIf: "{satisfaction-score} >= 4"
-  }, {
-    elements: [{
-      name: "how-can-we-improve",
-      title: "In your opinion, how could we improve our product?",
-      type: "comment"
-    }],
-    visibleIf: "{satisfaction-score} = 3"
-  }, {
-    elements: [{
-      name: "disappointing-experience",
-      title: "Please let us know why you had such a disappointing experience with our product",
-      type: "comment"
-    }],
-    visibleIf: "{satisfaction-score} =< 2"
-  }],
+    elements: [
+      {
+        name: "organization-name",
+        title: "What is the name of your organization?",
+        type: "text",
+        isRequired: true
+      },
+      {
+        name: "organization-industry",
+        title: "What industry does your organization operate in?",
+        type: "text",
+        isRequired: true
+      },
+      {
+        name: "organization-size",
+        title: "How would you describe the size of your organization?",
+        type: "dropdown",
+        choices: ["Small", "Medium", "Large"],
+        isRequired: true
+      }
+    ],
+    title: "Organization Details"
+  },
+  {
+    elements: [
+      {
+        name: "cloud-usage",
+        title: "Are you currently using cloud services?",
+        type: "radiogroup",
+        choices: ["Yes", "No"],
+        isRequired: true
+      },
+      {
+        name: "cloud-service-provider",
+        title: "If yes, which cloud service provider(s) are you using?",
+        type: "checkbox",
+        choices: ["AWS", "Azure", "Google Cloud", "Other"]
+      }
+    ],
+    title: "Current Cloud Usage",
+  },],
   showQuestionNumbers: "off",
   pageNextText: "Forward",
   completeText: "Submit",
@@ -66,6 +65,7 @@ const surveyJson = {
   completedHtml: "Thank you for your feedback!",
   showPreviewBeforeComplete: "showAnsweredQuestions"
 };
+
 
 function SurveyPage() {
   // useRef enables the Model object to persist between state changes
@@ -80,8 +80,9 @@ function SurveyPage() {
 
   survey.onComplete.add(displayResults);
   survey.applyTheme(LayeredDark);
+
   return (
-    <div id='survey-container'>
+    <div className='survey-container'>
       <Survey model={survey} id="surveyContainer" />
       {isSurveyCompleted && (
         <>
