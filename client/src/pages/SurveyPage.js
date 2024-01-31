@@ -1,5 +1,6 @@
 import React from 'react'
 import '../assets/styles/survey.css'
+import CostReport from './CostReport'
 
 import { useCallback, useState, useRef } from 'react';
 
@@ -7,6 +8,8 @@ import 'survey-core/defaultV2.min.css';
 import { LayeredDark } from "survey-core/themes/layered-dark";
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
+
+import axios from 'axios';
 
 const surveyJson = {
   pages: [{
@@ -76,7 +79,26 @@ function SurveyPage() {
   const displayResults = useCallback((sender) => {
     setSurveyResults(JSON.stringify(sender.data, null, 4));
     setIsSurveyCompleted(true);
+
+    // Sends survey results to Flask backend
+    sendSurveyResults(sender.data);
   }, []);
+
+  const sendSurveyResults = async (data) => {
+    try {
+      // Adjusts the URL to match your Flask backend endpoint
+      const apiUrl = 'http://localhost:5000/api/recommend-cloud';
+
+      // Sends a POST request to Flask with survey results
+      const response = await axios.post(apiUrl, data);
+      
+      // Logs the response from the Flask backend
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error sending survey results:', error);
+    }
+  };
+
 
   survey.onComplete.add(displayResults);
   survey.applyTheme(LayeredDark);
@@ -90,6 +112,7 @@ function SurveyPage() {
           <code style={{ whiteSpace: 'pre' }}>
             {surveyResults}
           </code>
+          <CostReport surveyResults={surveyResults} />
         </>
         )
       }
