@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CostReport() {
+function CostReport(surveyResults) {
   return (
     <div>
       <h2>CostReport</h2>
