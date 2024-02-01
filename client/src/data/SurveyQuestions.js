@@ -50,7 +50,7 @@ const surveyJson = {
     {
       elements: [
         {
-          name: "usage-workloads",
+          name: "usage_workloads",
           title: "What type of workloads or services do you primarily run on the cloud?",
           type: "checkbox",
           choices: ["Web hosting", "Data storage", "Machine Learning"],

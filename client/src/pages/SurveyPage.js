@@ -16,6 +16,7 @@ function SurveyPage() {
   // useRef enables the Model object to persist between state changes
   const survey = useRef(new Model(surveyJson)).current;
   const [surveyResults, setSurveyResults] = useState("");
+  const [recommendation, setRecommendation] = useState(null);
   const [isSurveyCompleted, setIsSurveyCompleted] = useState(false);
 
   const displayResults = useCallback((sender) => {
@@ -34,6 +35,7 @@ function SurveyPage() {
       // Sends a POST request to Flask with survey results
       const response = await axios.post(apiUrl, data);
       
+      setRecommendation(response.data);
       // Logs the response from the Flask backend
       console.log(response.data);
     } catch (error) {
@@ -50,7 +52,7 @@ function SurveyPage() {
       <Survey model={survey} id="surveyContainer" />
       {isSurveyCompleted && (
         // Explicitly passing surveyResults as a prop to CostReport
-        <CostReport surveyResults={surveyResults} />
+        <CostReport surveyResults={surveyResults} recommendation={recommendation}/>
       )}
     </div>
   );

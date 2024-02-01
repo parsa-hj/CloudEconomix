@@ -4,7 +4,7 @@ cloud_costs_data = {
     "AWS": {
         "instances": {
             "EC2": [
-                {"instance_name": "t3.medium", "memory": "2GB"},
+                {"instance_name": "t3.medium", "memory": "2GB", "usage_workloads": "web_hosting"},
                 {"instance_name": "c6gn.large", "memory": "4GB"},
                 # Add more EC2 instances as needed
             ],

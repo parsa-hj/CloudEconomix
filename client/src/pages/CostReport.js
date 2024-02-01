@@ -1,11 +1,19 @@
 import React from 'react'
 
-function CostReport(surveyResults) {
+function CostReport({surveyResults, recommendation}) {
   return (
     <div>
-      <h2>CostReport</h2>
+      <h2>Cost Report</h2>
       <p>Survey Results:</p>
-      <pre>{JSON.stringify(surveyResults, null, 4)}</pre>
+      
+      <h3>Recommendation:</h3>
+      {recommendation && (
+        <div>
+          <p>Cloud Provider: {recommendation.cloud_provider}</p>
+          <p>Instance: {recommendation.instance}</p>
+          <p>Cost: {recommendation.cost}</p>
+        </div>
+      )}
     </div>
   )
 }
